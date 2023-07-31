@@ -1,0 +1,40 @@
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = blue bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = red
+    untracked = cyan
+[color]
+    ui = true
+[core]
+    WHITESPACE=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    pager = less
+[alias]
+    co = checkout
+    branches = branch --list
+    st = status
+    histedit = rebase -i origin/master
+    amend = commit --amend
+    lb = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk --
+F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1,
+length($2)-1), $1)}'
+    cleanbr = ! git branch -d `git branch --merged | grep -v '^*\\|main\\|master\\|staging\\|devel'`
+[push]
+    default = current
+[pull]
+    rebase = true
+[includeIf "gitdir:~/code_moya/"]
+  path = code_moya/.gitconfig
+[init]
+    defaultBranch = main
