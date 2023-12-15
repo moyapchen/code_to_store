@@ -1,13 +1,24 @@
 #!/bin/bash
 
+######
+
+# If tmux is weird hanging, try `tmux kill-server`
+
+####
+
+
+
+
 SESSIONNAME=$1
 tmux has-session -t $SESSIONNAME &> /dev/null
 
 if [ $? != 0 ]
 then
+    echo "making new session $SESSIONNAME"
     tmux new-session -s $SESSIONNAME -n script -d
 #    tmux send-keys -t $SESSIONNAME "~/bin/script" C-m
 else
+    echo "taking over"
     TAKEOVER_SESSION='temp_takeover_session'
 
     if ! tmux has-session -t "$TAKEOVER_SESSION"; then
@@ -24,3 +35,4 @@ else
 fi
 
 tmux attach -t $SESSIONNAME
+
